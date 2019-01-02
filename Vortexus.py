@@ -8,6 +8,7 @@ bot = commands.Bot(command_prefix = "!")
 @bot.event
 async def on_ready():
   print('Connected')
+  await bot.change_presence(game=discord.Game(name='!help for help'))
 
 @bot.event 
 async def on_message(message):
