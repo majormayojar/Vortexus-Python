@@ -28,6 +28,7 @@ async def on_message(message):
       await bot.add_reaction(message, '\N{THUMBS UP SIGN}')
     if message.content == "!debug end":
       await bot.close()
+      await bot.change_presence(game=discord.Game(name='Powering off'))
 
       
 
