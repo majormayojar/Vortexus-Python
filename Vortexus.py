@@ -36,11 +36,18 @@ async def on_message(message):
       emb.set_author(name="About")
       await bot.send_message(message.channel, embed=emb)
     if message.content == "!debug test":
-      print("Test")
-      await bot.add_reaction(message, '\N{THUMBS UP SIGN}')
+      if message.author.id == "your userid here":
+        print("Test")
+        await bot.add_reaction(message, '\N{THUMBS UP SIGN}')
+      else:
+        await bot.add_reaction(message, '\N{NO_ENTRY}')
+        await bot.send_message(message.channel, "Sorry Only the owner can use that command.")
     if message.content == "!debug end":
-      await bot.close()
-      await bot.change_presence(game=discord.Game(name='Powering off'))
+      if "role id here" in [role.id for role in message.author.roles]
+        await bot.close()
+        await bot.change_presence(game=discord.Game(name='Powering off'))
+      else:
+        await bot.send_message(message.channel, "You cannot use this command")
 
       
 
