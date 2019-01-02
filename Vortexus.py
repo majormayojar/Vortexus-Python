@@ -5,6 +5,9 @@ TOKEN='TOKEN HERE'
 
 bot = commands.Bot(command_prefix = "!")
 
+chat_filter = ["PINAPPLE","APPLE", "CHROME"] #put your whitelisted words in the quotations
+bypass_list = ["userid"] #put a userid for people that can say the whitelisted words here
+
 @bot.event
 async def on_ready():
   print('Connected')
@@ -12,6 +15,13 @@ async def on_ready():
 
 @bot.event 
 async def on_message(message):
+    contents = message.content.split(" ")
+    for word  in contents:
+      if word.upper() in chat_filter:
+        if not message.author.id in bypass_list:
+          await bot.delete_message(message channel, "**Hey!** You can't use that word")
+          await bot.send_message(message.)
+   
     if message.content == "!ping":
       await bot.send_message(message.channel, "pong!")
       await bot.add_reaction(message, '\N{THUMBS UP SIGN}')
