@@ -21,6 +21,8 @@ async def on_message(message):
         if not message.author.id in bypass_list:
           await bot.delete_message(message channel, "**Hey!** You can't use that word")
           await bot.send_message(message.)
+        except discord.errors.NotFound:
+          return
    
     if message.content == "!ping":
       await bot.send_message(message.channel, "pong!")
