@@ -20,6 +20,7 @@ async def on_member_join():
   await bot.add_roles(member.server.roles, rolee)
 
 @bot.command(pass_context=True)
+@commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member = None):
     if not member:
         return await bot.say("Specify a member please")
@@ -27,12 +28,14 @@ async def kick(ctx, member: discord.Member = None):
       await bot.kick(member)
 
 @bot.command(pass_context=True)
+@commands.has_permissions(ban_members=True)
 async def ban(ctx, member: discord.Member = None):
     if not member:
         return await bot.say("Specify a member please")
     await bot.ban(member)
 
 @bot.command(pass_context=True)
+@commands.has_permissions(mute_members=True)
 async def mute(ctx, member: discord.Member=None):
     if not member:
         return await bot.say("Specify a member please")
@@ -40,6 +43,7 @@ async def mute(ctx, member: discord.Member=None):
     await bot.add_roles(member, role)
 
 @bot.command(pass_context=True)
+@commands.has_permissions(mute_members=True)
 async def unmute(ctx, member: discord.Member=None):
     if not member:
         return await bot.say("Specify a member please")
