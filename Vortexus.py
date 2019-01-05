@@ -1,12 +1,13 @@
 import discord
+import asyncio
 from discord.ext import commands
 
 TOKEN='TOKEN HERE'
 
-bot = commands.Bot(command_prefix = "!")
+bot = commands.Bot(command_prefix="!")
 
-chat_filter = ["PINAPPLE","APPLE", "CHROME"] #put your whitelisted words in the quotations
-bypass_list = ["userid"] #put a userid for people that can say the whitelisted words here
+chat_filter = ["PINAPPLE","APPLE", "CHROME"] 
+bypass_list = ["userid"] 
 
 @bot.event
 async def on_ready():
@@ -15,9 +16,36 @@ async def on_ready():
 
 @bot.event
 async def on_member_join():
-  rolee = discord.utils.get(server.roles, name='RoleNameHere') #Put your role name here | sorry for the two E's role is already a variable
+  rolee = discord.utils.get(server.roles, name='rolename here')
   await bot.add_roles(member.server.roles, rolee)
-  
+
+@bot.command(pass_context=True)
+async def kick(ctx, member: discord.Member = None):
+    if not member:
+        return await bot.say("Specify a member please")
+    else:
+      await bot.kick(member)
+
+@bot.command(pass_context=True)
+async def ban(ctx, member: discord.Member = None):
+    if not member:
+        return await bot.say("Specify a member please")
+    await bot.ban(member)
+
+@bot.command(pass_context=True)
+async def mute(ctx, member: discord.Member=None):
+    if not member:
+        return await bot.say("Specify a member please")
+    role = discord.utils.get(ctx.message.server.roles, name="muted")
+    await bot.add_roles(member, role)
+
+@bot.command(pass_context=True)
+async def unmute(ctx, member: discord.Member=None):
+    if not member:
+        return await bot.say("Specify a member please")
+    role = discord.utils.get(ctx.message.server.roles, name="muted")
+    await bot.remove_roles(member, role)
+
 @bot.event 
 async def on_message(message):
     contents = message.content.split(" ")
@@ -41,21 +69,21 @@ async def on_message(message):
       emb.set_author(name="About")
       await bot.send_message(message.channel, embed=emb)
     if message.content == "!debug test":
-      if message.author.id == "userid here":
+      if message.author.id == "userid":
         print("Test")
         await bot.add_reaction(message, '\N{THUMBS UP SIGN}')
       else:
         await bot.add_reaction(message, '\N{NO ENTRY}')
         await bot.send_message(message.channel, "Sorry, Only the owner can use that command.")
     if message.content == "!debug end":     
-      if message.author.id == "userid here":
+      if message.author.id == "userid":
         await bot.close()
         print("Powering off")
       else:
         await bot.send_message(message.channel, "You cannot use this command")
         await bot.add_reaction(message, '\N{NO ENTRY}')
+    await bot.process_commands(message)
 
-      
 
 
 bot.run(TOKEN)
