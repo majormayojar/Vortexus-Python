@@ -5,6 +5,7 @@ from discord.ext import commands
 TOKEN='TOKEN HERE'
 
 bot = commands.Bot(command_prefix="!")
+bot.remove_command('help')
 
 chat_filter = ["PINAPPLE","APPLE", "CHROME"] 
 bypass_list = ["userid"] 
@@ -16,7 +17,7 @@ async def on_ready():
 
 @bot.event
 async def on_member_join():
-  rolee = discord.utils.get(server.roles, name='RoleNameHere')
+  rolee = discord.utils.get(server.roles, name='ROLENAMEHERE')
   await bot.add_roles(server.roles, rolee)
 
 @bot.command(pass_context=True)
@@ -39,7 +40,7 @@ async def ban(ctx, member: discord.Member = None):
 async def mute(ctx, member: discord.Member=None):
     if not member:
         return await bot.say("Specify a member please")
-    role = discord.utils.get(ctx.message.server.roles, name="muted") #make a role called muted  
+    role = discord.utils.get(ctx.message.server.roles, name="muted")
     await bot.add_roles(member, role)
 
 @bot.command(pass_context=True)
@@ -59,6 +60,22 @@ async def clear(ctx, amount=100):
   await bot.delete_messages(messages)
   await bot.say('Messages deleted')
 
+@bot.command(pass_context=True)
+async def help(ctx):
+  author = ctx.message.author
+  
+  emb = discord.Embed(
+      colour = discord.Colour.blue()
+    )
+  emb.set_author(name='Help')
+  emb.add_field(name='!kick', value='!kick: kicks the specified user;', inline=False)
+  emb.add_field(name='!ban', value='!ban: bans the specified user;', inline=False)
+  emb.add_field(name='!mute', value='!mute: mutes the specified user;', inline=False)
+  emb.add_field(name='!unmute', value='!unmute: unmutes the specified user;', inline=False)
+  emb.add_field(name='!clear', value='!clear: clears a certain amount of messages from 1 to 100;', inline=False)
+  emb.add_field(name='!about', value='!about: tells the user about vortexus', inline=False)
+
+  await bot.send_message(author, embed=emb)
 
 @bot.command()
 async def echo(*args):
@@ -82,9 +99,6 @@ async def on_message(message):
     if message.content == "!ping":
       await bot.send_message(message.channel, "pong!")
       await bot.add_reaction(message, '\N{THUMBS UP SIGN}')
-    if message.content == "!help":
-      emb = (discord.Embed(description="Commands can be found [here](https://github.com/majormayojar/Vortexus-Python/wiki/Commands)", colour=0x3DF270))
-      emb.set_author(name="Commands")
     if message.content == "!about":
       emb = (discord.Embed(description="Vortexus is a bot maintained by [Infinixius](https://infinixius.co.nf), this is a port of Vortexus in discord.py by [mayojar](mayojar.co.nf). Run ?cmds for help. You are running version 1.4.0.0-beta", colour=0x3DF270))
       emb.set_author(name="About")
