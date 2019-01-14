@@ -7,7 +7,7 @@ TOKEN='TOKEN HERE'
 bot = commands.Bot(command_prefix="!")
 bot.remove_command('help')
 
-chat_filter = ["PINAPPLE","APPLE", "CHROME"] 
+chat_filter = ["WORD HERE","WORD HERE", "WORD HERE"] 
 bypass_list = ["userid"] 
 
 @bot.event
